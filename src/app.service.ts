@@ -1,11 +1,9 @@
 import { Injectable } from '@nestjs/common';
-import { RedisService } from './redis/redis.service';
+import { ApiService } from './api.service';
 @Injectable()
 export class AppService {
-  constructor(private readonly redisService: RedisService) {}
-  async getHello(): Promise<string> {
-    const value = await this.redisService.getValues('test');
-    console.log(value);
-    return `Hello World:! ${value}`;
+  constructor(private readonly apiService: ApiService) {}
+  async getHello(): Promise<any> {
+    return this.apiService.getData();
   }
 }
