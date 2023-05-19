@@ -1,19 +1,24 @@
 # XLimiter
 is a simple rate limiter for NestJS. using [redis](https://www.npmjs.com/package/redis) packages.
 ## Description
-in this package we have multiple decorators for rate limiting.
-- `@RateLimit` for limiting requests per second.
-- `@RateLimitPerMinute` for limiting requests per minute.
-- `@RateLimitPerHour` for limiting requests per hour.
-- `@RateLimitPerDay` for limiting requests per day.
-- `@RateLimitPerWeek` for limiting requests per week.
-- `@RateLimitPerMonth` for limiting requests per month.
-- `@RateLimitPerYear` for limiting requests per year.
-- `@RateLimitPerCustom` for limiting requests per custom time.
+in this package we have multiple Interceptors for rate limiting.
+- `@SystemLimitInterceptor` for limiting requests per system capacity.
+- `@MonthlyLimitInterceptor` for limiting requests monthly .
+- `@DailyLimitInterceptor` for limiting requests daily .
 ## Installation
-
+clone the repository and install dependencies.
 ```bash
 $ yarn
+```
+## Spin up redis
+```bash
+$ docker build -t redis -f redis.dockerfile .
+$ docker run -d -p 6379:6379 redis
+```
+## Spin up Nginx
+```bash
+$ docker build -t nginx -f nginx.dockerfile .
+$ docker run -d -p 80:80 nginx
 ```
 
 ## Running the app
@@ -29,21 +34,12 @@ $ yarn run start:dev
 $ yarn run start:prod
 ```
 
-## Test
+## Test The app
 
-```bash
-# unit tests
-$ yarn run test
-
-# e2e tests
-$ yarn run test:e2e
-
-# test coverage
-$ yarn run test:cov
-```
+To access the app, navigate to the API gateway at http://localhost:80 and send a request to http://localhost:80/ with the api-key query parameter.
 
 ## Documentation
-below you can see the c4 model of this package.
+To access the documentation, navigate to http://localhost:80/docs
 
 ### Context
 
@@ -53,7 +49,7 @@ below you can see the c4 model of this package.
 ![rate - Containers.jpeg](./assets/Rate%20limiter%20(API)%20-%20Container.png)
 
 ### Components (Rate limit api)
-![rate - Components.jpeg](./assets/Rate%20limiter%20-%20Component%20(3).png)
+![rate - Components.jpeg](./assets/Rate.png)
 
 
 ## Stay in touch
