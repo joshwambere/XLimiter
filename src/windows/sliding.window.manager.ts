@@ -63,8 +63,9 @@ export class SlidingWindowManagerService {
   async trackRequestSystem(limitWindow: number): Promise<number> {
     const now = Date.now();
     const windowKey = `window:`;
-    const windowKeys = await this.redisService.scanKeys<string[]>(windowKey);
-    console.log('windows.....', windowKeys);
+    const windowKeys =
+      (await this.redisService.scanKeys<string[]>(windowKey)) || [];
+    // Remove expired entries
     const updatedWindow = windowKeys.filter(
       (timestamp) => now - parseInt(timestamp, 10) <= limitWindow,
     );

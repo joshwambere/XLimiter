@@ -25,18 +25,13 @@ export class SystemLimitInterceptor implements NestInterceptor {
     context: ExecutionContext,
     next: CallHandler,
   ): Promise<Observable<any>> {
-    const apiKey = context.switchToHttp().getRequest().get('api-key');
-
     const isWithinRateLimit = await this.ratelimterService.systemRateLimit(
       this.SYSTEM_RATE_LIMIT_WINDOW,
       this.SYSTEM_RATE_LIMIT_COUNT,
     );
 
     if (isWithinRateLimit) {
-      throw new HttpException(
-        'System reached maximum request',
-        apiKey ? 429 : 503,
-      );
+      throw new HttpException('System reached maximum request', 429);
     }
     return next.handle();
   }
