@@ -33,16 +33,13 @@ export class RateLimitInterceptor implements NestInterceptor {
     context: ExecutionContext,
     next: CallHandler,
   ): Promise<Observable<any>> {
-    const request = context.switchToHttp().getRequest();
-    const apiKey = request.query['api-key'];
-
     const isWithinRateLimit = await this.ratelimterService.rateLimiter(
       context,
-      apiKey ? this.USER_RATE_LIMIT_WINDOW : this.SYSTEM_RATE_LIMIT_WINDOW,
-      apiKey ? this.USER_RATE_LIMIT_COUNT : this.SYSTEM_RATE_LIMIT_COUNT,
+      this.USER_RATE_LIMIT_WINDOW,
+      this.USER_RATE_LIMIT_COUNT,
     );
     if (isWithinRateLimit) {
-      throw new HttpException('Too many Requests', apiKey ? 429 : 503);
+      throw new HttpException('Too many Requests', 429);
     }
 
     return next.handle();

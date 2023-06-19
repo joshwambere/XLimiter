@@ -21,15 +21,13 @@ export class MonthlyLimitInterceptor implements NestInterceptor {
     context: ExecutionContext,
     next: CallHandler,
   ): Promise<Observable<any>> {
-    const apiKey = context.switchToHttp().getRequest().get('api-key');
-
     const isWithinRateLimit = await this.ratelimterService.monthlyRateLimiter(
       context,
       this.USER_MONTHLY_RATE_LIMIT_COUNT,
     );
 
     if (isWithinRateLimit) {
-      throw new HttpException('Exceeded monthly limit', apiKey ? 429 : 503);
+      throw new HttpException('Exceeded monthly limit', 429);
     }
 
     return next.handle();

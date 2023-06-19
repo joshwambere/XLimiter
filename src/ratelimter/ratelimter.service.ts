@@ -1,5 +1,4 @@
-import { ExecutionContext, HttpException, Injectable } from '@nestjs/common';
-import { RedisService } from '../redis/redis.service';
+import { ExecutionContext, Injectable } from '@nestjs/common';
 import { RequestTrackerService } from '../utils/request.tracker';
 import { SlidingWindowManagerService } from '../windows/sliding.window.manager';
 import { FixedWindowManagerService } from '../windows/fixed.wondow.manager';

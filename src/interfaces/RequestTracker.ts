@@ -1,5 +1,5 @@
 interface RequestTracker {
   ip: string;
-  userAgent: string;
+  userAgent?: string;
   apiKeys?: string;
 }
